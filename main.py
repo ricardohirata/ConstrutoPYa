@@ -19,6 +19,19 @@ def dividir(numero1, numero2):
     else:
         return 'Nao e possivel dividir por zero.'
 
+def dividir_try_except(numero1, numero2):
+    try:
+        return numero1/numero2
+    except TypeError:
+        if TypeError == ZeroDivisionError:
+            return 'Nao e possivel dividir por zero.'
+        elif TypeError == ArithmeticError:
+            return 'Erro no calculo.'
+        elif TypeError == ValueError:
+            return 'Erro no valor.'
+        else:
+            return 'Erro desconhecido.'
+
 # Testes
 # Teste da funcao somar Longo
 def test_somar():
@@ -33,9 +46,13 @@ def test_somar():
     # 3 - Check / Valida
     assert resultado_atual == resultado_esperado
 
-# Teste da funcao somar Curto
-def test_somar_compacto():
-    assert somar(8, 5) == 13
+@pytest.mark.parametrize('numero1,numero2,resultado',[
+    (5,4,9), #teste 1
+    (1,5,6), #teste 2
+    (10,20,30), #teste 3
+])# Teste da funcao somar Curto
+def test_somar_compacto(numero1, numero2, resultado):
+    assert somar(numero1, numero2) == resultado
 
 def test_subtrair():
     assert subtrair(10, 5) == 5
@@ -43,9 +60,27 @@ def test_subtrair():
 def test_multiplicar():
     assert multiplicar(3, 4) == 12
 
+# teste exemplo de divisao, nao é utilizado de forma geral
 def test_dividir():
     assert dividir(8,4) == 2
 
+#teste varios erros
+@pytest.mark.parametrize('numero1, numero2, resultado',[
+    (9,3,3),
+    (8,4,2),
+    (10,0,'Nao e possivel dividir por zero.'),
+])
+def test_dividir_try_exception(numero1,numero2,resultado):
+    assert dividir_try_except(numero1, numero2) == resultado
+
+
+
+    #teste positivo     mostra o resultado correto
+    #                   avancar para a proxima etapa
+
+    #teste negativo     mostrar a mensagem de erro
+
+#--------------------------------------------------------------------------
 # Dia 1: 100 Testes: 0 passaram
 # Dia 2: 100 Testes: 5 passaram
 # Dia 3: 100 Testes: 15 passaram
